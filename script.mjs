@@ -46,7 +46,7 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
             name:         device?.name,
             displayName:  device?.displayName,
             battery:      device.hasBattery?device.battery():-1,
-            commands:      []
+            commands:     []
           };
 
           if(device?.messageAttributes?.scalarCmd) {
