@@ -46,13 +46,15 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
             name:         device?.name,
             displayName:  device?.displayName,
             battery:      device.hasBattery?device.battery():-1,
-            actions:      device.vibrateAttributes
+            commands:      []
           };
 
-          console.log('messageAttributes',device?.messageAttributes);
-          console.log('allowedMsgs',device?.allowedMsgs);
-          console.log('vibrateAttributes',device?.vibrateAttributes);
-          console.info('# DEVICE FOUND',JSON.parse(deviceInfo));
+          if(device?.messageAttributes?.scalarCmd) {
+            device.messageAttributes.scalarCmd.forEach(i=>{deviceInfo.commands.push(i.ActuatorType)});
+            deviceInfo.commands.filter((value, index, array) => deviceInfo.commands.indexOf(value) === index);
+          }
+          
+          console.info('# DEVICE FOUND',deviceInfo);
 
 
           // Let's at least show the user we know something is connected, by adding the device name
