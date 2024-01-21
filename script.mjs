@@ -35,8 +35,10 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
           * (https://metafetish.github.io/buttplug-js/classes/device.html). If we see something added that
           * can vibrate, we'll send a message to start vibrating, then 3 seconds later, a message to stop.
           */
+
+          
       
-          console.log('# DEVICE FOUND',JSON.stringify(device));
+          console.info('# DEVICE FOUND',JSON.parse(device.deviceInfo));
           // Let's at least show the user we know something is connected, by adding the device name
           // to a list on the page.
           let ul = document.getElementById("devices");
