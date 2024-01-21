@@ -61,7 +61,7 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
           // to a list on the page.
           let ul = document.getElementById("devices");
           let li = document.createElement("li");
-          li.appendChild(document.createTextNode(device.name));
+          li.appendChild(document.createTextNode(JSON.stringify(deviceInfo,null,4)));
       
           // To check whether something can vibrate, we currently look for the ScalarCmd message with a Vibrate Actuator
           // in the allowed messages list. Luckily, the client API makes this easier for us by just giving use "vibrate"
@@ -73,18 +73,11 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
             // function to do this, with the device object and a new message object. We'll await this, as the
             // server will let us know when the message has been successfully sent.
             let btnVibrate = document.createElement("button");
-            btnVibrate.innerHTML = "Vibrate for 3 seconds";
+            btnVibrate.innerHTML = "Vibrate Level 1 for 3 seconds";
             btnVibrate.addEventListener("click", async () => {
               await device.vibrate(1.0);
               setTimeout(async () => { await device.stop();}, 3000);
             });
-
-            /*let btnBattery = document.createElement("button");
-            btnBattery.innerHTML = "Show Battery";
-            btnBattery.addEventListener("click", async () => {
-              await device.(1.0);
-              setTimeout(async () => { await device.stop();}, 3000);
-            });*/
 
             ul.appendChild(li);
             li.appendChild(btnVibrate);
