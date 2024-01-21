@@ -14,7 +14,7 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
      * seen in the message spec, including ping handling and message ID tracking.
      * Handy!
      */
-    let client = new ButtplugClient("Tutorial Client");
+    let client = new ButtplugClient("mlx.toy.ctrl");
 
 
 
@@ -36,6 +36,7 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
           * can vibrate, we'll send a message to start vibrating, then 3 seconds later, a message to stop.
           */
       
+          console.log('# DEVICE FOUND',JSON.stringify(device));
           // Let's at least show the user we know something is connected, by adding the device name
           // to a list on the page.
           let ul = document.getElementById("devices");
@@ -46,21 +47,27 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
           // in the allowed messages list. Luckily, the client API makes this easier for us by just giving use "vibrate"
           // actuators, and handles conversion to ScalarCmd for us.
           if (device.vibrateAttributes.length > 0) {
+
             // Ok, we have a device that vibrates. Let's make it vibrate. We'll put a button that, when clicked, sends
             // a vibrate message to the server. We'll use the client's SendDeviceMessage
             // function to do this, with the device object and a new message object. We'll await this, as the
             // server will let us know when the message has been successfully sent.
-            let button = document.createElement("button");
-            button.innerHTML = "Click to vibrate";
-            button.addEventListener("click", async () => {
+            let btnVibrate = document.createElement("button");
+            btnVibrate.innerHTML = "Vibrate for 3 seconds";
+            btnVibrate.addEventListener("click", async () => {
               await device.vibrate(1.0);
-      
-              // Now we set a timeout for 3 seconds in the future, to stop the device.
               setTimeout(async () => { await device.stop();}, 3000);
             });
 
+            /*let btnBattery = document.createElement("button");
+            btnBattery.innerHTML = "Show Battery";
+            btnBattery.addEventListener("click", async () => {
+              await device.(1.0);
+              setTimeout(async () => { await device.stop();}, 3000);
+            });*/
+
             ul.appendChild(li);
-            li.appendChild(button);
+            li.appendChild(btnVibrate);
           }
       
           // At this point, let's just say we're done. Ask the server to stop scanning if it is currently doing so.
@@ -68,7 +75,7 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
     });
 
 
-    
+
 
     // On finished Scanning for devices
     client.addListener("scanningfinished", async (device) => {
