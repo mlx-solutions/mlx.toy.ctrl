@@ -45,14 +45,14 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
             index:        device?.index,
             name:         device?.name,
             displayName:  device?.displayName,
-            battery:      device.hasBattery?device.battery():-1,
+            battery:      -1,
             commands:     []
           };
 
-          if(device?.messageAttributes?.scalarCmd) {
-            device.messageAttributes.scalarCmd.forEach(i=>{deviceInfo.commands.push(i.ActuatorType)});
-            deviceInfo.commands.filter((value, index, array) => deviceInfo.commands.indexOf(value) === index);
-          }
+          if(device.hasBattery) {deviceInfo.battery =  await device.battery(); }
+          if(device.vibrateAttributes.length>0) { deviceInfo.commands.push('Vibrate');}
+          if(device.rotateAttributes.length>0) { deviceInfo.commands.push('Rotate'); }
+          if(device.oscillateAttributes.length>0) { deviceInfo.commands.push('Oscillate'); }
           
           console.info('# DEVICE FOUND',deviceInfo);
 
