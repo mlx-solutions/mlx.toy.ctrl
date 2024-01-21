@@ -17,6 +17,9 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
     let client = new ButtplugClient("mlx.toy.ctrl");
 
 
+    client.addListener('deviceremoved', async (device) => {
+      console.warn(device?.name + 'diconnected');
+    });
 
     /*
      * The 'deviceadded' event is emitted any time the client is made aware of a device it did not
@@ -38,7 +41,17 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
 
           
       
-          console.info('# DEVICE FOUND',JSON.parse(device.deviceInfo));
+          let deviceInfo={
+            index:        device.index,
+            name:         device.name,
+            displayName:  device.displayName,
+            battery:      device.hasBattery()?device.battery():-1,
+            actions:      device.vibrateAttributes
+          };
+
+          console.info('# DEVICE FOUND',JSON.parse(deviceInfo));
+
+
           // Let's at least show the user we know something is connected, by adding the device name
           // to a list on the page.
           let ul = document.getElementById("devices");
@@ -83,6 +96,8 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
     client.addListener("scanningfinished", async (device) => {
       console.log("Scanning Finished");
     });
+
+
 
 
 
