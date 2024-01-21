@@ -42,13 +42,16 @@ import { ButtplugWasmClientConnector } from "https://cdn.jsdelivr.net/npm/buttpl
           
       
           let deviceInfo={
-            index:        device.index,
-            name:         device.name,
-            displayName:  device.displayName,
-            battery:      device.hasBattery()?device.battery():-1,
+            index:        device?.index,
+            name:         device?.name,
+            displayName:  device?.displayName,
+            battery:      device.hasBattery?device.battery():-1,
             actions:      device.vibrateAttributes
           };
 
+          console.log('messageAttributes',device?.messageAttributes);
+          console.log('allowedMsgs',device?.allowedMsgs);
+          console.log('vibrateAttributes',device?.vibrateAttributes);
           console.info('# DEVICE FOUND',JSON.parse(deviceInfo));
 
 
